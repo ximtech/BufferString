@@ -32,12 +32,12 @@ jobs:
       run: ./Tests
 
     - name: Exclude reports
-      run: ls
+      run: cd Tests && ls
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         gcov: true
         token: ${{ secrets.CODECOV_TOKEN }}
-        gcov_include: ../BufferString.c
+        gcov_include: BufferString.c
         fail_ci_if_error: true
