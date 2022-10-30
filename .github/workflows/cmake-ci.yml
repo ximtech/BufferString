@@ -36,3 +36,4 @@ jobs:
       with:
         gcov: true
         token: ${{ secrets.CODECOV_TOKEN }}
+        gcov_include: BufferString.c
