@@ -6,15 +6,15 @@ include(../cmake/CodeCoverage.cmake)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set(COVERAGE_EXCLUDES
-        '${PROJECT_SOURCE_DIR}/Tests/*'
-        '${PROJECT_SOURCE_DIR}/Tests/BufferString/*'
-        '${PROJECT_SOURCE_DIR}/Tests/munit/*')
-
 append_coverage_compiler_flags()
 
 set(ROOT_DIR "..")
 include_directories(${ROOT_DIR}/)
+
+set(COVERAGE_EXCLUDES
+        '${ROOT_DIR}/Tests/*'
+        '${ROOT_DIR}/Tests/BufferString/*'
+        '${ROOT_DIR}/Tests/munit/*')
 
 add_compile_definitions(ENABLE_FLOAT_FORMATTING)
 
