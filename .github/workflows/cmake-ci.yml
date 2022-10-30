@@ -31,9 +31,6 @@ jobs:
       working-directory: ${{github.workspace}}/Tests/cmake-build-debug
       run: ./Tests
 
-    - name: Exclude reports
-      run: cd Tests/cmake-build-debug/Tests && ls
-
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
@@ -41,3 +38,6 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
         verbose: true
+
+    - name: Check upload
+      run: ls
