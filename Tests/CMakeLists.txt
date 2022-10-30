@@ -1,18 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 project(Tests C)
 
-include(../cmake/CodeCoverage.cmake)
-append_coverage_compiler_flags()
-
 set(CMAKE_C_STANDARD 99)
 
 set(ROOT_DIR "..")
 include_directories(${ROOT_DIR}/)
-
-set(COVERAGE_EXCLUDES
-        '${ROOT_DIR}/*'
-        '${ROOT_DIR}/BufferString/*'
-        '${ROOT_DIR}/munit/*')
 
 add_compile_definitions(ENABLE_FLOAT_FORMATTING)
 
