@@ -2,11 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 project(Tests C)
 
 include(../cmake/CodeCoverage.cmake)
+append_coverage_compiler_flags()
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_VERBOSE_MAKEFILE ON)
-
-append_coverage_compiler_flags()
 
 set(ROOT_DIR "..")
 include_directories(${ROOT_DIR}/)
