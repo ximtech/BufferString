@@ -32,6 +32,7 @@ jobs:
       run: ./Tests
 
     - name: Upload coverage to Codecov
+      run: ls
       uses: codecov/codecov-action@v3
       with:
         gcov: true
