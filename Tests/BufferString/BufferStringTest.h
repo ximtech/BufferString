@@ -2227,10 +2227,6 @@ static MunitResult testStringProperties(const MunitParameter params[], void *tes
 static MunitResult testStringParsing(const MunitParameter params[], void *testData) {
     BufferString *str = NEW_STRING_1024(ESP_RESPONSE);
     BufferString *result = EMPTY_STRING(2048);
-    if (str == NULL) {  // check that buffer fits to response size
-        printf("String with size: %d is to small for response with size: %d\n", stringCapacity(str), strlen(ESP_RESPONSE));
-        return MUNIT_FAIL;
-    }
 
     BufferString *token = EMPTY_STRING(128);
     StringIterator iterator = getStringSplitIterator(str, "\n");    // get every line separated by new line character
