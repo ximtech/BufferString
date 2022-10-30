@@ -38,4 +38,3 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         gcov_include: ../BufferString.c
         fail_ci_if_error: true
-        verbose: true
