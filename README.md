@@ -1,5 +1,7 @@
 # BufferString
 
+[![tests](https://github.com/ximtech/BufferString/actions/workflows/cmake-ci.yml/badge.svg?branch=main)](https://github.com/ximtech/BufferString/actions/workflows/cmake-ci.yml)
+
 **forked from:** [Simple Buffer String (SBS)](https://github.com/nathanrpage97/sbs)
 
 **BufferString** is a string library for C designed to augment standard `<string.h>` handling functionalities. \
