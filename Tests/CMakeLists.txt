@@ -12,9 +12,9 @@ set(ROOT_DIR "..")
 include_directories(${ROOT_DIR}/)
 
 set(COVERAGE_EXCLUDES
-        '${ROOT_DIR}/Tests/*'
-        '${ROOT_DIR}/Tests/BufferString/*'
-        '${ROOT_DIR}/Tests/munit/*')
+        '${ROOT_DIR}/*'
+        '${ROOT_DIR}/BufferString/*'
+        '${ROOT_DIR}/munit/*')
 
 add_compile_definitions(ENABLE_FLOAT_FORMATTING)
 
