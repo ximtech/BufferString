@@ -32,7 +32,7 @@ jobs:
       run: ./Tests
 
     - name: Report
-      run: cd Tests && ls
+      run: cd Tests/cmake-build-debug/ && ls
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
