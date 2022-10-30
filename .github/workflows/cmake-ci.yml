@@ -37,4 +37,3 @@ jobs:
         gcov: true
         token: ${{ secrets.CODECOV_TOKEN }}
         gcov_include: BufferString.c
-        files: ./BufferString.c.gcov, ./BufferString.h.gcov
