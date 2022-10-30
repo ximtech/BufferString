@@ -1,6 +1,7 @@
 # BufferString
 
 [![tests](https://github.com/ximtech/BufferString/actions/workflows/cmake-ci.yml/badge.svg?branch=main)](https://github.com/ximtech/BufferString/actions/workflows/cmake-ci.yml)
+[![codecov](https://codecov.io/gh/ximtech/BufferString/branch/main/graph/badge.svg?token=oWE7rYTzQS)](https://codecov.io/gh/ximtech/BufferString)
 
 **forked from:** [Simple Buffer String (SBS)](https://github.com/nathanrpage97/sbs)
 
