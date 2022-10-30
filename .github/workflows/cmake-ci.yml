@@ -32,13 +32,12 @@ jobs:
       run: ./Tests
 
     - name: Report
-      run: gcov -pb BufferString.c
+      run: cd Tests
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
         gcov: true
-        flags: unittests
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
         verbose: true
