@@ -32,7 +32,7 @@ jobs:
       run: ./Tests
 
     - name: Create Test Report
-      run: mkdir -p coverage && gcov -b BufferString.c
+      run: ls && mkdir -p coverage && gcov -b BufferString.c
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3

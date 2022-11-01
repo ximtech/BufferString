@@ -233,7 +233,7 @@ substringAfter(source, destination, "");  // "abcba"
 #### Short version
 
 ```c
-    BufferString *source = NEW_STRING_32("abcba");
+BufferString *source = NEW_STRING_32("abcba");
 BufferString *destination = SUBSTRING_AFTER(32, source, "cb"); // "a"
 ```
 
