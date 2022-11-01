@@ -38,8 +38,7 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         gcov: true
-        files: /home/runner/work/BufferString/BufferString/BufferString.c
-        gcov_include: BufferString.c
+        files: /home/runner/work/BufferString/BufferString/BufferString.c, /home/runner/work/BufferString/BufferString/include/BufferString.h
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
         verbose: true
