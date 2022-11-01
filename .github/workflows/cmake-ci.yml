@@ -31,9 +31,6 @@ jobs:
       working-directory: ${{github.workspace}}/Tests/cmake-build-debug
       run: ./Tests
 
-    - name: Create Test Report
-      run: cd Tests && cd cmake-build-debug && ls
-
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
