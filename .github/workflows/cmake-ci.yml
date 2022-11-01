@@ -31,8 +31,8 @@ jobs:
       working-directory: ${{github.workspace}}/Tests/cmake-build-debug
       run: ./Tests
 
-    - name: Report
-      run: cd Tests/cmake-build-debug/ && ls
+    - name: Create Test Report
+      run: mkdir -p coverage && gcov -b BufferString.c
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
