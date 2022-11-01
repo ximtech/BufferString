@@ -35,7 +35,7 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         gcov: true
-        files: "^(.+\/)?.+BufferString\.[c,h]{1}\.gcov$"
+        files: ^(.+/)?.+BufferString\.[c,h]{1}\.gcov$
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
         verbose: true
