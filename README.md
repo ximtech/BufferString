@@ -2,6 +2,7 @@
 
 [![tests](https://github.com/ximtech/BufferString/actions/workflows/cmake-ci.yml/badge.svg?branch=main)](https://github.com/ximtech/BufferString/actions/workflows/cmake-ci.yml)
 [![codecov](https://codecov.io/gh/ximtech/BufferString/branch/main/graph/badge.svg?token=oWE7rYTzQS)](https://codecov.io/gh/ximtech/BufferString)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/cc8f50c5f20a4f7d94990f507071a6cf)](https://www.codacy.com/gh/ximtech/BufferString/dashboard)
 
 **forked from:** [Simple Buffer String (SBS)](https://github.com/nathanrpage97/sbs)
 
