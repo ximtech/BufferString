@@ -236,6 +236,8 @@ BufferString *stringFormat(BufferString *str, const char *format, ...) {
 
         str = formatNumber(str, flags, lengthField, widthField, precisionField, base, &vaList);
     }
+
+    va_end(vaList);
     return str;
 }
 
@@ -484,8 +486,10 @@ BufferString *joinChars(BufferString *str, const char *delimiter, uint32_t argCo
     if (isFailedToJoin) {
         shallowStringCopy(&backupString, str);
         TERMINATE_STRING(str);  // restore previous string ending by length
+        va_end(valist);
         return NULL;
     }
+    va_end(valist);
     return str;
 }
 
@@ -1097,7 +1101,6 @@ static BufferString *numberToString(BufferString *str, uint64_t number, char sig
     precision = (numberLength > precision) ? numberLength : precision;
 
     size -= precision;
-    size = sign != NO_SIGN ? (size - 1) : size;
     size = (size > 0) ? size : 0;
 
     str = concatLeftPadding(str, &sign, base, &size, flags);
@@ -1174,7 +1177,6 @@ static inline BufferString *concatSpecialIfPresent(BufferString *str, uint8_t ba
         } else if (base == BIN_BASE) {
             str = concatCharsByLength(str, "0b", 2);
         }
-        BIT_CLEAR(flags, SPECIAL_FLAG);
     }
     return str;
 }
@@ -1192,15 +1194,15 @@ static char resolveSign(int64_t *number, uint8_t flags, int32_t *widthField) {
     if (*number < 0) {
         sign = '-';
         *number = -*number;
-        *widthField--;
+        *widthField -= 1;
 
     } else if (IS_FLAG_SET(flags, PLUS_FLAG)) {
         sign = '+';
-        *widthField--;
+        *widthField -= 1;
 
     } else if (IS_FLAG_SET(flags, SPACE_FLAG)) {
         sign = ' ';
-        *widthField--;
+        *widthField -= 1;
     }
     return sign;
 }
