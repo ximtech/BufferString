@@ -546,8 +546,10 @@ BufferString *joinStrings(BufferString *str, const char *delimiter, uint32_t arg
     if (isFailedToJoin) {
         shallowStringCopy(&backupString, str);
         TERMINATE_STRING(str);  // restore previous string ending by length
+        va_end(valist);
         return NULL;
     }
+    va_end(valist);
     return str;
 }
 
