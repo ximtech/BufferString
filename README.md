@@ -9,7 +9,7 @@
 **BufferString** is a string library for C designed to augment standard `<string.h>` handling functionalities. \
 Most usefully functions partition to C from Java `java.lang.String` and Apache `org.apache.commons.lang3.StringUtils`
 . \
-Specifically designed for embedded applications.
+Specifically designed for embedded applications
 
 ### Features
 
