@@ -18,7 +18,7 @@
 #define HEX_BASE 16
 
 #define NO_SIGN 0
-#define NO_RESULT -1
+#define NO_RESULT (-1)
 #define HEX_SIZE 2
 #define NAN_LENGTH 3
 #define INF_LENGTH 3
@@ -79,6 +79,8 @@ typedef enum FormatFlagField {
 } FormatFlagField;
 
 static void shallowStringCopy(BufferString *source, BufferString *destination);
+static uint32_t isDelimiterChar(char valueChar, const char *delimiters, uint32_t length);
+
 static uint8_t parseFormatFlags(const char *format, uint8_t *flags);
 static uint8_t parseFormatFieldWith(const char *format, va_list *vaList, int32_t *widthField, uint8_t *flags);
 static uint8_t parseFormatPrecision(const char *format, va_list *vaList, int32_t *precision);
@@ -356,6 +358,32 @@ BufferString *reverseString(BufferString *str) {
         str->value[i] = tailChar;
         str->value[str->length - i - 1] = headChar;
     }
+    return str;
+}
+
+BufferString *capitalize(BufferString *str, const char *delimiters, uint32_t length) {
+    if (isBuffStringBlank(str)) return str;
+
+    if (delimiters == NULL || length == 0) {
+        delimiters = " ";
+        length = 1;
+    }
+
+    bool capitalizeNext = true;
+    for (uint32_t i = 0; i < stringLength(str); i++) {
+
+        char valueChar = charAt(str, i);
+        if (isDelimiterChar(valueChar, delimiters, length)) {
+            capitalizeNext = true;
+            continue;
+        }
+
+        if (capitalizeNext) {
+            str->value[i] = (char) toupper(str->value[i]);
+            capitalizeNext = false;
+        }
+    }
+
     return str;
 }
 
@@ -693,6 +721,15 @@ static void shallowStringCopy(BufferString *source, BufferString *destination) {
     destination->capacity = source->capacity;
     destination->length = source->length;
     destination->value = source->value;
+}
+
+static uint32_t isDelimiterChar(char valueChar, const char *delimiters, uint32_t length) {
+    for (int i = 0; i < length; i++) {
+        if (delimiters[i] == valueChar) {
+            return true;
+        }
+    }
+    return false;
 }
 
 static uint8_t parseFormatFlags(const char *format, uint8_t *flags) {

@@ -190,6 +190,29 @@ printf("%s", stringValue(str));
 Output: tab
 ```
 
+### Capitalize string
+
+With default separator
+
+```c
+BufferString *str = NEW_STRING_32("test message");
+capitalize(str, NULL, 0);   // default whitespace separator will be used
+printf("%s", stringValue(str));
+
+Output: Test Message
+```
+
+Custom separators
+
+```c
+BufferString *str = NEW_STRING_32("i aM.fine");
+char delims[] = {'.'};
+capitalize(str, delims, 1);
+printf("%s", stringValue(str));
+
+Output: I aM.Fine
+```
+
 ## Substring from the specified `BufferString`
 
 ### Substring from index

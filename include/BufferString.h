@@ -83,6 +83,7 @@ BufferString *replaceFirstOccurrence(BufferString *source, const char *target, c
 BufferString *replaceAllOccurrences(BufferString *source, const char *target, const char *replacement);
 BufferString *trimAll(BufferString *str);
 BufferString *reverseString(BufferString *str);
+BufferString *capitalize(BufferString *str, const char *delimiters, uint32_t length);
 
 // substring
 BufferString *substringFrom(BufferString *source, BufferString *destination, uint32_t beginIndex);

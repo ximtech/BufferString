@@ -1671,6 +1671,30 @@ static MunitResult testReverseString(const MunitParameter params[], void *testDa
     return MUNIT_OK;
 }
 
+static MunitResult testCapitalizeString(const MunitParameter params[], void *testData) {
+    BufferString *empty = NULL;
+    capitalize(empty, NULL, 0);
+    assert_null(empty);
+
+    empty = EMPTY_STRING(32);
+    capitalize(empty, NULL, 0);
+    assert_not_null(empty);
+    assert_true(isBuffStringEmpty(empty));
+
+    BufferString *str = NEW_STRING_32("i am fine");
+    capitalize(str, NULL, 0);
+    assert_string_equal(stringValue(str), "I Am Fine");
+
+    str = NEW_STRING_32("i aM.fine");
+    capitalize(str, (char[]){'.'}, 1);
+    assert_string_equal(stringValue(str), "I aM.Fine");
+
+    str = NEW_STRING_64("some _test&with/different$#separators@t");
+    capitalize(str, (char[]){' ', '_', '&', '/', '$', '#'}, 6);
+    assert_string_equal(stringValue(str), "Some _Test&With/Different$#Separators@t");
+    return MUNIT_OK;
+}
+
 static MunitResult testSubstringFrom(const MunitParameter params[], void *testData) {
     BufferString *str = NEW_STRING_64("abc");
     BufferString *result = EMPTY_STRING(64);
@@ -2314,6 +2338,7 @@ static MunitTest bufferStringTests[] = {
 
         {.name =  "Test trimAll() - should correctly remove trailing whitespaces", .test = testTrimString, .parameters = stringTestParameters1},
         {.name =  "Test reverseString() - should correctly reverse string characters", .test = testReverseString},
+        {.name =  "Test capitalize() - should correctly set uppercase to words by delimiter", .test = testCapitalizeString},
 
         {.name =  "Test substringFrom() - should correctly substring from index", .test = testSubstringFrom},
         {.name =  "Test substringFromTo() - should correctly substring from index and end index", .test = testSubstringFromTo},
