@@ -1744,7 +1744,7 @@ static MunitResult testSubstringAfter(const MunitParameter params[], void *testD
     validateString(result, "", 0, 64);
 
     result = SUBSTRING_AFTER(64, str, "d"); // not existing value
-    validateString(result, "abcba", 5, 64);
+    validateString(result, "", 0, 64);
 
     result = SUBSTRING_AFTER(3, str, "a");  // overflow
     assert_null(result);
@@ -1760,7 +1760,7 @@ static MunitResult testSubstringAfterLast(const MunitParameter params[], void *t
     validateString(result, "", 0, 64);
 
     result = SUBSTRING_AFTER_LAST(64, str, "d"); // not existing value
-    validateString(result, "abcba", 5, 64);
+    validateString(result, "", 0, 64);
 
     result = SUBSTRING_AFTER_LAST(3, str, "ab");  // overflow
     assert_null(result);
@@ -1779,7 +1779,7 @@ static MunitResult testSubstringBefore(const MunitParameter params[], void *test
     validateString(result, "ab", 2, 64);
 
     result = SUBSTRING_BEFORE(64, str, "d"); // not existing value
-    validateString(result, "abcba", 5, 64);
+    validateString(result, "", 0, 64);
 
     result = SUBSTRING_BEFORE(3, str, "ba");  // overflow
     assert_null(result);
@@ -1798,7 +1798,7 @@ static MunitResult testSubstringBeforeLast(const MunitParameter params[], void *
     validateString(result, "abcb", 4, 64);
 
     result = SUBSTRING_BEFORE_LAST(64, str, "d"); // not existing value
-    validateString(result, "abcba", 5, 64);
+    validateString(result, "", 0, 64);
 
     result = SUBSTRING_BEFORE_LAST(3, str, "b");  // overflow
     assert_null(result);
@@ -1824,7 +1824,7 @@ static MunitResult testSubstringBetween(const MunitParameter params[], void *tes
     result = SUBSTRING_BETWEEN(64, str_3, "+IPD,", ":");
     validateString(result, "1,497", 5, 64);
 
-    BufferString *str_4 = NEW_STRING(64, TEST_STRING);
+    BufferString *str_4 = NEW_STRING_128(TEST_STRING);
     result = SUBSTRING_BETWEEN(3, str_4, "+IPD,", ":");   // overflow
     assert_null(result);
     return MUNIT_OK;

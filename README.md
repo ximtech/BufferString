@@ -213,7 +213,7 @@ printf("%s", stringValue(str));
 Output: I aM.Fine
 ```
 
-## Substring from the specified `BufferString`
+## Substring
 
 ### Substring from index
 
@@ -224,6 +224,8 @@ substringFrom(source, destination, 0);  // "abc"
 substringFrom(source, destination, 2);  // "c"
 substringFrom(source, destination, 4);  // ""
 ```
+
+**NOTE:** For `char*` use `substringCStrFrom()`
 
 ### Substring in range
 
@@ -241,6 +243,8 @@ substringFromTo(source, destination, 4, 6);  // ""
 BufferString *source = NEW_STRING_32("abc");
 BufferString *destination = SUBSTRING(32, source, 1, 2);    // "b"
 ```
+
+**NOTE:** For `char*` use `substringCStrFromTo()` or `SUBSTRING_CSTR` macro
 
 ### Substring after
 
@@ -261,6 +265,8 @@ BufferString *source = NEW_STRING_32("abcba");
 BufferString *destination = SUBSTRING_AFTER(32, source, "cb"); // "a"
 ```
 
+**NOTE:** For `char*` use `substringCStrAfter()` or `SUBSTRING_CSTR_AFTER` macro
+
 ### Substring after last
 
 Return the substring after the last occurrence of a separator
@@ -279,6 +285,8 @@ substringAfterLast(source, destination, "ab");  // "cba"
 BufferString *source = NEW_STRING_32("abcba");
 BufferString *destination = SUBSTRING_AFTER_LAST(32, source, "b"); // "a"
 ```
+
+**NOTE:** For `char*` use `substringCStrAfterLast()` or `SUBSTRING_CSTR_AFTER_LAST` macro
 
 ### Substring before
 
@@ -299,6 +307,8 @@ BufferString *source = NEW_STRING_32("abcba");
 BufferString *destination = SUBSTRING_BEFORE(32, source, "c"); // "ab"
 ```
 
+**NOTE:** For `char*` use `substringCStrBefor()` or `SUBSTRING_CSTR_BEFORE` macro
+
 ### Substring before last
 
 Return the substring before the last occurrence of a separator
@@ -318,6 +328,8 @@ BufferString *source = NEW_STRING_32("abcba");
 BufferString *destination = SUBSTRING_BEFORE_LAST(32, source, "a"); // "abcb"
 ```
 
+**NOTE:** For `char*` use `substringCStrBeforeLast()` or `SUBSTRING_CSTR_BEFORE_LAST` macro
+
 ### Substring between
 
 Return the `BufferString` that is nested in between two strings
@@ -335,6 +347,8 @@ substringBetween(source, destination, "y", "z");  // "abc"
 BufferString *source = NEW_STRING_32("yabczyabcz");
 BufferString *destination = SUBSTRING_BETWEEN(32, source, "y", "z"); // "abc"
 ```
+
+**NOTE:** For `char*` use `substringCStrBetween()` or `SUBSTRING_CSTR_BETWEEN` macro
 
 ## Split string
 
@@ -488,6 +502,8 @@ indexOfString(NEW_STRING_16("aabaabaa"), "", 2);  // 2
 indexOfString(NEW_STRING_16("aabaabaa"), "", 9);  // -1
 ```
 
+**NOTE:** For `char*` use `indexOfCStr()`
+
 Function `lastIndexOfString()` finds the last index within a `char` sequence, handling `NULL`
 
 ```c
@@ -499,6 +515,8 @@ lastIndexOfString(NEW_STRING_16("aabaabaa"), "ab");  // 4
 lastIndexOfString(NEW_STRING_16("aabaabaa"), "b");  // 5
 lastIndexOfString(NEW_STRING_16("aabaabaa"), "");  // 8
 ```
+
+**NOTE:** For `char*` use `lastIndexOfCStr()`
 
 ## BufferString starts with
 

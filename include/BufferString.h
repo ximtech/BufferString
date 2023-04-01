@@ -39,6 +39,13 @@ typedef struct StringIterator {
 #define SUBSTRING_BEFORE_LAST(capacity, source, separator) substringBeforeLast(source, EMPTY_STRING(capacity), separator)
 #define SUBSTRING_BETWEEN(capacity, source, open, close) substringBetween(source, EMPTY_STRING(capacity), open, close)
 
+#define SUBSTRING_CSTR(capacity, source, beginIndex, endIndex) substringCStrFromTo(source, EMPTY_STRING(capacity), beginIndex, endIndex)
+#define SUBSTRING_CSTR_AFTER(capacity, source, separator) substringCStrAfter(source, EMPTY_STRING(capacity), separator)
+#define SUBSTRING_CSTR_AFTER_LAST(capacity, source, separator) substringCStrAfterLast(source, EMPTY_STRING(capacity), separator)
+#define SUBSTRING_CSTR_BEFORE(capacity, source, separator) substringCStrBefore(source, EMPTY_STRING(capacity), separator)
+#define SUBSTRING_CSTR_BEFORE_LAST(capacity, source, separator) substringCStrBeforeLast(source, EMPTY_STRING(capacity), separator)
+#define SUBSTRING_CSTR_BETWEEN(capacity, source, open, close) substringCStrBetween(source, EMPTY_STRING(capacity), open, close)
+
 #define INT64_TO_STRING(value) int64ToString(EMPTY_STRING(32), value)
 #define UINT64_TO_STRING(value) uInt64ToString(EMPTY_STRING(32), value)
 
@@ -94,6 +101,15 @@ BufferString *substringBefore(BufferString *source, BufferString *destination, c
 BufferString *substringBeforeLast(BufferString *source, BufferString *destination, const char *separator);
 BufferString *substringBetween(BufferString *source, BufferString *destination, const char *open, const char *close);
 
+// substring from 'char*'
+BufferString *substringCStrFrom(char *source, BufferString *destination, uint32_t beginIndex);
+BufferString *substringCStrFromTo(char *source, BufferString *destination, uint32_t beginIndex, uint32_t endIndex);
+BufferString *substringCStrAfter(char *source, BufferString *destination, const char *separator);
+BufferString *substringCStrAfterLast(char *source, BufferString *destination, const char *separator);
+BufferString *substringCStrBefore(char *source, BufferString *destination, const char *separator);
+BufferString *substringCStrBeforeLast(char *source, BufferString *destination, const char *separator);
+BufferString *substringCStrBetween(char *source, BufferString *destination, const char *open, const char *close);
+
 // split
 StringIterator getStringSplitIterator(BufferString *str, const char *delimiter);
 bool hasNextSplitToken(StringIterator *iterator, BufferString *token);
@@ -120,6 +136,10 @@ bool isBuffStringEqualsIgnoreCase(BufferString *one, BufferString *two);
 int32_t indexOfChar(BufferString *str, char charToFind, uint32_t fromIndex);
 int32_t indexOfString(BufferString *str, const char *stringToFind, uint32_t fromIndex);
 int32_t lastIndexOfString(BufferString *str, const char *stringToFind);
+
+// index 'char*'
+int32_t indexOfCStr(char *str, const char *stringToFind, uint32_t fromIndex);
+int32_t lastIndexOfCStr(char *str, const char *stringToFind);
 
 // starts with
 bool isStringStartsWith(BufferString *str, const char *prefix, uint32_t toOffset);

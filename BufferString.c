@@ -392,54 +392,80 @@ BufferString *substringFrom(BufferString *source, BufferString *destination, uin
 }
 
 BufferString *substringFromTo(BufferString *source, BufferString *destination, uint32_t beginIndex, uint32_t endIndex) {
-    bool isStringNotInBounds = (beginIndex > endIndex || endIndex > source->length);
+    return substringCStrFromTo(source != NULL ? source->value : NULL, destination, beginIndex, endIndex);
+}
+
+BufferString *substringAfter(BufferString *source, BufferString *destination, const char *separator) {
+    return substringCStrAfter(source != NULL ? source->value : NULL, destination, separator);
+}
+
+BufferString *substringAfterLast(BufferString *source, BufferString *destination, const char *separator) {
+    return substringCStrAfterLast(source != NULL ? source->value : NULL, destination, separator);
+}
+
+BufferString *substringBefore(BufferString *source, BufferString *destination, const char *separator) {
+    return substringCStrBefore(source != NULL ? source->value : NULL, destination, separator);
+}
+
+BufferString *substringBeforeLast(BufferString *source, BufferString *destination, const char *separator) {
+    return substringCStrBeforeLast(source != NULL ? source->value : NULL, destination, separator);
+}
+
+BufferString *substringBetween(BufferString *source, BufferString *destination, const char *open, const char *close) {
+    return substringCStrBetween(source != NULL ? source->value : NULL, destination, open, close);
+}
+
+BufferString *substringCStrFrom(char *source, BufferString *destination, uint32_t beginIndex) {
+    return substringCStrFromTo(source, destination, beginIndex, strlen(source));
+}
+
+BufferString *substringCStrFromTo(char *source, BufferString *destination, uint32_t beginIndex, uint32_t endIndex) {
+    bool isStringNotInBounds = (beginIndex > endIndex || endIndex > strlen(source));
     if (isStringNotInBounds) return NULL;
     uint32_t subLen = (endIndex - beginIndex);
-    memmove(destination->value, source->value + beginIndex, subLen);
+    memmove(destination->value, source + beginIndex, subLen);
     destination->length = subLen;
     TERMINATE_STRING(destination);
     return destination;
 }
 
-BufferString *substringAfter(BufferString *source, BufferString *destination, const char *separator) {
-    char *substringPointer = strstr(source->value, separator);
-    if (substringPointer == NULL) return source;
+BufferString *substringCStrAfter(char *source, BufferString *destination, const char *separator) {
+    char *substringPointer = strstr(source, separator);
+    if (substringPointer == NULL) return destination;
     uint32_t separatorLength = strlen(separator);
     substringPointer += separatorLength;
     return copyStringByLength(destination, substringPointer, strlen(substringPointer));
 }
 
-BufferString *substringAfterLast(BufferString *source, BufferString *destination, const char *separator) {
-    int32_t position = lastIndexOfString(source, separator);
+BufferString *substringCStrAfterLast(char *source, BufferString *destination, const char *separator) {
+    int32_t position = lastIndexOfCStr(source, separator);
     if (position == NO_RESULT) {
-        return source;
+        return destination;
     }
     uint32_t separatorLength = strlen(separator);
-    char *substringPointer = source->value + position + separatorLength;    // move to the last occurrence
+    char *substringPointer = source + position + separatorLength;    // move to the last occurrence
     return copyStringByLength(destination, substringPointer, strlen(substringPointer));
 }
 
-BufferString *substringBefore(BufferString *source, BufferString *destination, const char *separator) {
-    int32_t position = indexOfString(source, separator, 0);
+BufferString *substringCStrBefore(char *source, BufferString *destination, const char *separator) {
+    int32_t position = indexOfCStr(source, separator, 0);
     if (position == NO_RESULT) {
-        return source;
+        return destination;
     }
-    char *substringPointer = source->value;
-    return copyStringByLength(destination, substringPointer, position);
+    return copyStringByLength(destination, source, position);
 }
 
-BufferString *substringBeforeLast(BufferString *source, BufferString *destination, const char *separator) {
-    int32_t position = lastIndexOfString(source, separator);
+BufferString *substringCStrBeforeLast(char *source, BufferString *destination, const char *separator) {
+    int32_t position = lastIndexOfCStr(source, separator);
     if (position == NO_RESULT) {
-        return source;
+        return destination;
     }
-    char *substringPointer = source->value;
-    return copyStringByLength(destination, substringPointer, position);
+    return copyStringByLength(destination, source, position);
 }
 
-BufferString *substringBetween(BufferString *source, BufferString *destination, const char *open, const char *close) {
+BufferString *substringCStrBetween(char *source, BufferString *destination, const char *open, const char *close) {
     if (source == NULL || destination == NULL) return NULL;
-    char *startPointer = strstr(source->value, open);
+    char *startPointer = strstr(source, open);
     if (startPointer != NULL) {  // check that substring start is found
         startPointer += strlen(open);
         char *endPointer = strstr(startPointer, close);
@@ -664,16 +690,24 @@ int32_t indexOfChar(BufferString *str, char charToFind, uint32_t fromIndex) {
 }
 
 int32_t indexOfString(BufferString *str, const char *stringToFind, uint32_t fromIndex) {
-    if (str == NULL || stringToFind == NULL || fromIndex >= str->length) return NO_RESULT;
-    char *strPointer = strstr(str->value + fromIndex, stringToFind);
-    return strPointer != NULL ? (strPointer - str->value) : NO_RESULT;
+    return indexOfCStr(str != NULL ? str->value : NULL, stringToFind, fromIndex);
 }
 
 int32_t lastIndexOfString(BufferString *str, const char *stringToFind) {
+    return lastIndexOfCStr(str != NULL ? str->value : NULL, stringToFind);
+}
+
+int32_t indexOfCStr(char *str, const char *stringToFind, uint32_t fromIndex) {
+    if (str == NULL || stringToFind == NULL || fromIndex >= strlen(str)) return NO_RESULT;
+    char *strPointer = strstr(str + fromIndex, stringToFind);
+    return strPointer != NULL ? (strPointer - str) : NO_RESULT;
+}
+
+int32_t lastIndexOfCStr(char *str, const char *stringToFind) {
     if (str == NULL || stringToFind == NULL) return NO_RESULT;
     uint32_t substringLength = strlen(stringToFind);
 
-    uint32_t i = str->length;
+    uint32_t i = strlen(str);
     while (true) {
         uint32_t step = (i > substringLength) ? substringLength : 1;
         if (i == 0) {
@@ -681,9 +715,9 @@ int32_t lastIndexOfString(BufferString *str, const char *stringToFind) {
         }
         i -= step;
 
-        char *substringPointer = strstr(str->value + i, stringToFind);
+        char *substringPointer = strstr(str + i, stringToFind);
         if (substringPointer != NULL) {
-            return (substringPointer - str->value);
+            return (substringPointer - str);
         }
     }
     return NO_RESULT;
