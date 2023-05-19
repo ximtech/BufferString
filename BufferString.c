@@ -191,6 +191,7 @@ BufferString *stringFormat(BufferString *str, const char *format, ...) {
                 break;
             case 'x':
                 SET_FLAG(flags, LOWER_CASE_FLAG);
+                // fall through
             case 'X':
                 base = HEX_BASE;
                 break;
@@ -647,7 +648,7 @@ BufferString *uInt64ToString(BufferString *str, uint64_t value) {
 
 bool isBuffStringBlank(BufferString *str) {
     while (isBuffStringNotEmpty(str)) {
-        if (!isspace(*str->value)) {
+        if (!isspace((int) *str->value)) {
             return false;
         }
         str->value++;
@@ -802,7 +803,7 @@ static uint8_t parseFormatFlags(const char *format, uint8_t *flags) {
 }
 
 static uint8_t parseFormatFieldWith(const char *format, va_list *vaList, int32_t *widthField, uint8_t *flags) {
-    if (isdigit(*format)) {
+    if (isdigit((int) *format)) {
         *widthField = 0;
         return stringToNumber(format, widthField);
 
@@ -820,7 +821,7 @@ static uint8_t parseFormatFieldWith(const char *format, va_list *vaList, int32_t
 static uint8_t parseFormatPrecision(const char *format, va_list *vaList, int32_t *precision) {
     if (*format == '.') {
         format++;   // skip '.'
-        if (isdigit(*format)) {
+        if (isdigit((int) *format)) {
             *precision = 0;
             return stringToNumber(format, precision) + SKIP_ONE_CHAR;   // also skip '.'
 
@@ -1194,7 +1195,7 @@ static BufferString *numberToString(BufferString *str, uint64_t number, char sig
 static uint8_t stringToNumber(const char *numberStr, int32_t *resultValue) {
     uint8_t numberLength = 0;
 
-    while (isdigit(*numberStr) && numberLength <= UINT64_DIGITS_MAX_COUNT) {
+    while (isdigit((int) *numberStr) && numberLength <= UINT64_DIGITS_MAX_COUNT) {
         *resultValue = (*resultValue * 10) + (*numberStr - '0');
         numberLength++;
         numberStr++;
