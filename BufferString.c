@@ -646,6 +646,35 @@ BufferString *uInt64ToString(BufferString *str, uint64_t value) {
     return reverseString(str);
 }
 
+StringToI64Status stringToI64(BufferString *str, int64_t *out, int base) {
+    return str != NULL ? cStrToInt64(str->value, out, base) : STR_TO_I64_INCONVERTIBLE;
+}
+
+StringToI64Status cStrToInt64(const char *str, int64_t *out, int base) {
+    if (str == NULL || *str == '\0' || isspace((int) str[0])) {
+        return STR_TO_I64_INCONVERTIBLE;
+    }
+
+    char *end;
+    errno = 0;
+    int64_t result = strtoll(str, &end, base);
+    // Both checks are needed because LLONG_MAX == LLONG_MAX is possible.
+    if (result > LLONG_MAX || (errno == ERANGE && result == LLONG_MAX)) {
+        return STR_TO_I64_OVERFLOW;
+    }
+
+    if (result < LLONG_MIN || (errno == ERANGE && result == LLONG_MIN)) {
+        return STR_TO_I64_UNDERFLOW;
+    }
+
+    if (*end != '\0') {
+        return STR_TO_I64_INCONVERTIBLE;
+    }
+
+    *out = result;
+    return STR_TO_I64_SUCCESS;
+}
+
 bool isBuffStringBlank(BufferString *str) {
     while (isBuffStringNotEmpty(str)) {
         if (!isspace((int) *str->value)) {

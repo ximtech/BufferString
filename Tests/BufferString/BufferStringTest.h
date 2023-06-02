@@ -2012,6 +2012,72 @@ static MunitResult testUint64ToString(const MunitParameter params[], void *testD
     return MUNIT_OK;
 }
 
+static MunitResult testStringToI64(const MunitParameter params[], void *testData) {
+    int64_t i;
+    /* Lazy to calculate this size properly. */
+    char s[128];
+
+    /* Simple case. */
+    assert_int(cStrToInt64("11", &i, 10), ==, STR_TO_I64_SUCCESS);
+    assert_int(i, ==, 11);
+
+    /* Negative number . */
+    assert_int(cStrToInt64("-11", &i, 10), ==, STR_TO_I64_SUCCESS);
+    assert_int(i, ==, -11);
+
+    /* Different base. */
+    assert_int(cStrToInt64("11", &i, 16), ==, STR_TO_I64_SUCCESS);
+    assert_int(i, ==, 17);
+
+    /* 0 */
+    assert_int(cStrToInt64("0", &i, 10), ==, STR_TO_I64_SUCCESS);
+    assert_int(i, ==, 0);
+
+    /* INT_MAX. */
+    sprintf(s, "%d", INT_MAX);
+    assert_int(cStrToInt64(s, &i, 10), ==, STR_TO_I64_SUCCESS);
+    assert_int(i, ==, INT_MAX);
+
+    /* INT_MIN. */
+    sprintf(s, "%d", INT_MIN);
+    assert_int(cStrToInt64(s, &i, 10), ==, STR_TO_I64_SUCCESS);
+    assert_int(i, ==, INT_MIN);
+
+    /* Leading and trailing space. */
+    assert_int(cStrToInt64(" 1", &i, 10), ==, STR_TO_I64_INCONVERTIBLE);
+    assert_int(cStrToInt64("1 ", &i, 10), ==, STR_TO_I64_INCONVERTIBLE);
+
+    /* Trash characters. */
+    assert_int(cStrToInt64("a10", &i, 10), ==, STR_TO_I64_INCONVERTIBLE);
+    assert_int(cStrToInt64("10a", &i, 10), ==, STR_TO_I64_INCONVERTIBLE);
+
+    /* i64_t overflow.
+     *
+     * `if` needed to avoid undefined behaviour
+     * on `INT_MAX + 1` if INT_MAX == LONG_MAX.
+     */
+    if (LLONG_MAX < LLONG_MAX) {
+        sprintf(s, "%lld", (long  long)LLONG_MAX + 1L);
+        assert_int(cStrToInt64(s, &i, 10), ==, STR_TO_I64_OVERFLOW);
+    }
+
+    /* int underflow */
+    if (LLONG_MIN < LLONG_MIN) {
+        sprintf(s, "%lld", (long  long)LLONG_MIN - 1L);
+        assert_int(cStrToInt64(s, &i, 10), ==, STR_TO_I64_UNDERFLOW);
+    }
+
+    /* long overflow */
+    sprintf(s, "%lld0", LLONG_MAX);
+    assert_int(cStrToInt64(s, &i, 10), ==, STR_TO_I64_OVERFLOW);
+
+    /* long underflow */
+    sprintf(s, "%lld0", LLONG_MIN);
+    assert_int(cStrToInt64(s, &i, 10), ==, STR_TO_I64_UNDERFLOW);
+
+    return MUNIT_OK;
+}
+
 static MunitResult testIsBuffStringBlank(const MunitParameter params[], void *testData) {
     BufferString *testStr1 = NEW_STRING_16("");
     BufferString *testStr2 = NEW_STRING_16("acvd");
@@ -2359,6 +2425,7 @@ static MunitTest bufferStringTests[] = {
 
         {.name =  "Test int64ToString() - should correctly convert long long to string", .test = testInt64ToString},
         {.name =  "Test uInt64ToString() - should correctly convert unsigned long long to string", .test = testUint64ToString},
+        {.name =  "Test cStrToInt64() - should correctly convert string to long long", .test = testStringToI64},
 
         {.name =  "Test isBuffStringBlank() - should correctly check string blankness", .test = testIsBuffStringBlank},
         {.name =  "Test isBuffStringEquals() - should correctly check string equality", .test = testIsBuffStringEquals},

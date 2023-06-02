@@ -433,7 +433,7 @@ repeatChars(str, "a", 3);    // "aaa"
 repeatChars(str, "ab", 2);    // "abab"
 ```
 
-## Fast number to string conversion
+## Fast number to string conversion and vice versa
 
 `int64_t` and `uint64_t` to `BufferString`
 
@@ -442,6 +442,19 @@ BufferString *str = EMPTY_STRING(64);
 int64ToString(str, -10000); // "-10000"
 uInt64ToString(str, 10000); // "10000"
 ```
+
+`BufferString` to `int64_t`
+
+```c
+BufferString *str = NEW_STRING_32("123456789");
+int64_t result = 0;
+StringToI64Status status = stringToI64(str, &result, 10);
+if (status == STR_TO_I64_SUCCESS) {
+    printf("%lld\n", result);   // 123456789
+}
+```
+
+For `char *` use `cStrToInt64()` instead
 
 ## Check functions
 

@@ -6,6 +6,9 @@
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <limits.h>
+#include <errno.h>
+#include <stdlib.h>
 
 #ifdef ENABLE_FLOAT_FORMATTING
 #include <float.h>
@@ -24,6 +27,13 @@ typedef struct StringIterator {
     uint32_t delimiterLength;
     char *nextToken;
 } StringIterator;
+
+typedef enum StringToI64Status {
+    STR_TO_I64_SUCCESS,
+    STR_TO_I64_OVERFLOW,
+    STR_TO_I64_UNDERFLOW,
+    STR_TO_I64_INCONVERTIBLE
+} StringToI64Status;
 
 // initialization
 #define NEW_STRING(capacity, initValue) newString(&(BufferString){0}, initValue, (char[capacity]){0}, capacity)
@@ -126,6 +136,8 @@ BufferString *repeatChars(BufferString *str, const char *repeatChars, uint32_t c
 // convert
 BufferString *int64ToString(BufferString *str, int64_t value);
 BufferString *uInt64ToString(BufferString *str, uint64_t value);
+StringToI64Status stringToI64(BufferString *str, int64_t *out, int base);
+StringToI64Status cStrToInt64(const char *str, int64_t *out, int base);
 
 // check
 bool isBuffStringBlank(BufferString *str);
