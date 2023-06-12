@@ -38,6 +38,7 @@ typedef enum StringToI64Status {
 // initialization
 #define NEW_STRING(capacity, initValue) newString(&(BufferString){0}, initValue, (char[capacity]){0}, capacity)
 #define NEW_STRING_LEN(capacity, initValue, length) newStringWithLength(&(BufferString){0}, initValue, length, (char[capacity]){0}, capacity)
+#define NEW_STRING_BUFF(buffer, initValue) newString(&(BufferString){0}, initValue, buffer, sizeof(buffer) / sizeof((buffer)[0]))   // create string from existing local or static buffer
 #define EMPTY_STRING(capacity) newString(&(BufferString){0}, "", (char[capacity]){0}, capacity)
 #define DUP_STRING(capacity, source) dubString(source, &(BufferString){0}, (char[capacity]){0}, capacity)
 

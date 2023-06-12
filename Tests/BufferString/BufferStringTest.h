@@ -62,6 +62,11 @@ static MunitResult testNewStringCreation(const MunitParameter params[], void *te
 
     BufferString *str_14 = NEW_STRING(1, "");
     validateString(str_14, "", 0, 1);
+
+    static char staticBuff[128] = {0};
+    BufferString *str_15 = NEW_STRING_BUFF(staticBuff, "abcd");
+    validateString(str_15, "abcd", 4, 128);
+
     return MUNIT_OK;
 }
 

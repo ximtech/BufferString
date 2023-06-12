@@ -86,6 +86,9 @@ BufferString *sourceStr = NEW_STRING_32("some text");
 BufferString *copyStr = DUP_STRING(64, sourceStr);  // copy of original string
 
 BufferString *str = STRING_FORMAT_64("%s", "Text"); // from formatted string
+
+static buffer[128] = {0};
+BufferString *buffStr = NEW_STRING_BUFF(buffer, "abcd");    // from static or global buffer
 ```
 
 The creation functions all return either `BufferString` pointer or `NULL` if there is a failure.
