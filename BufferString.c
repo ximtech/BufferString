@@ -363,7 +363,7 @@ BufferString *reverseString(BufferString *str) {
 }
 
 BufferString *capitalize(BufferString *str, const char *delimiters, uint32_t length) {
-    if (isBuffStringBlank(str)) return str;
+    if (isBuffStrBlank(str)) return str;
 
     if (delimiters == NULL || length == 0) {
         delimiters = " ";
@@ -675,7 +675,7 @@ StringToI64Status cStrToInt64(const char *str, int64_t *out, int base) {
     return STR_TO_I64_SUCCESS;
 }
 
-bool isBuffStringBlank(BufferString *str) {
+bool isBuffStrBlank(BufferString *str) {
     while (isBuffStringNotEmpty(str)) {
         if (!isspace((int) *str->value)) {
             return false;
@@ -685,7 +685,7 @@ bool isBuffStringBlank(BufferString *str) {
     return true;
 }
 
-bool isBuffStringEquals(BufferString *one, BufferString *two) {
+bool isBuffStrEquals(BufferString *one, BufferString *two) {
     if (one == two) return true;
 
     if (one != NULL && two != NULL) {
@@ -697,7 +697,22 @@ bool isBuffStringEquals(BufferString *one, BufferString *two) {
     return false;
 }
 
-bool isBuffStringEqualsIgnoreCase(BufferString *one, BufferString *two) {
+bool isBuffStrEqualsCstr(BufferString *one, const char *two) {
+    if (one != NULL && one->value == two) {
+        return true;
+    }
+
+    if (one != NULL && two != NULL) {
+        size_t oneLength = one->length;
+        size_t twoLength = strnlen(two, oneLength + 1);
+        if (oneLength == twoLength) {
+            return strncmp(one->value, two, oneLength) == 0;
+        }
+    }
+    return false;
+}
+
+bool isBuffStrEqualsIgnoreCase(BufferString *one, BufferString *two) {
     if (one == two) return true;
 
     if (one != NULL && two != NULL) {

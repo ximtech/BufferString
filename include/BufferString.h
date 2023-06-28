@@ -141,9 +141,10 @@ StringToI64Status stringToI64(BufferString *str, int64_t *out, int base);
 StringToI64Status cStrToInt64(const char *str, int64_t *out, int base);
 
 // check
-bool isBuffStringBlank(BufferString *str);
-bool isBuffStringEquals(BufferString *one, BufferString *two);
-bool isBuffStringEqualsIgnoreCase(BufferString *one, BufferString *two);
+bool isBuffStrBlank(BufferString *str);
+bool isBuffStrEquals(BufferString *one, BufferString *two);
+bool isBuffStrEqualsCstr(BufferString *one, const char *two);
+bool isBuffStrEqualsIgnoreCase(BufferString *one, BufferString *two);
 
 // index
 int32_t indexOfChar(BufferString *str, char charToFind, uint32_t fromIndex);
@@ -176,11 +177,11 @@ static inline bool isBuffStringNotEmpty(BufferString *str) {
 }
 
 static inline bool isBuffStringNotBlank(BufferString *str) {
-    return !isBuffStringBlank(str);
+    return !isBuffStrBlank(str);
 }
 
 static inline bool isBuffStringNotEquals(BufferString *one, BufferString *two) {
-    return !isBuffStringEquals(one, two);
+    return !isBuffStrEquals(one, two);
 }
 
 // properties

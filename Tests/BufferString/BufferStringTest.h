@@ -2091,42 +2091,51 @@ static MunitResult testIsBuffStringBlank(const MunitParameter params[], void *te
     BufferString *testStr5 = NEW_STRING_16("\n\t\r");
     BufferString *testStr6 = NEW_STRING_16(NULL);
 
-    assert_true(isBuffStringBlank(testStr1));
-    assert_false(isBuffStringBlank(testStr2));
-    assert_true(isBuffStringBlank(testStr3));
-    assert_false(isBuffStringBlank(testStr4));
-    assert_true(isBuffStringBlank(testStr5));
-    assert_true(isBuffStringBlank(testStr6));
+    assert_true(isBuffStrBlank(testStr1));
+    assert_false(isBuffStrBlank(testStr2));
+    assert_true(isBuffStrBlank(testStr3));
+    assert_false(isBuffStrBlank(testStr4));
+    assert_true(isBuffStrBlank(testStr5));
+    assert_true(isBuffStrBlank(testStr6));
     return MUNIT_OK;
 }
 
 static MunitResult testIsBuffStringEquals(const MunitParameter params[], void *testData) {
-    assert_true(isBuffStringEquals(NEW_STRING_16(NULL), NEW_STRING_16(NULL)));
-    assert_true(isBuffStringEquals(NEW_STRING_16("b"), NEW_STRING_16("b")));
-    assert_true(isBuffStringEquals(NEW_STRING_16("123"), NEW_STRING_16("123")));
-    assert_true(isBuffStringEquals(NEW_STRING_16(")"), NEW_STRING_16(")")));
+    assert_true(isBuffStrEquals(NEW_STRING_16(NULL), NEW_STRING_16(NULL)));
+    assert_true(isBuffStrEquals(NEW_STRING_16("b"), NEW_STRING_16("b")));
+    assert_true(isBuffStrEquals(NEW_STRING_16("123"), NEW_STRING_16("123")));
+    assert_true(isBuffStrEquals(NEW_STRING_16(")"), NEW_STRING_16(")")));
 
-    assert_false(isBuffStringEquals(NEW_STRING_16("a"), NEW_STRING_16(NULL)));
-    assert_false(isBuffStringEquals(NEW_STRING_16(NULL), NEW_STRING_16("b")));
-    assert_false(isBuffStringEquals(NEW_STRING_16("bB"), NEW_STRING_16("b")));
-    assert_false(isBuffStringEquals(NEW_STRING_16("bB"), NEW_STRING_16("bb")));
-    assert_false(isBuffStringEquals(NEW_STRING_16("#@"), NEW_STRING_16("@#")));
+    assert_false(isBuffStrEquals(NEW_STRING_16("a"), NEW_STRING_16(NULL)));
+    assert_false(isBuffStrEquals(NEW_STRING_16(NULL), NEW_STRING_16("b")));
+    assert_false(isBuffStrEquals(NEW_STRING_16("bB"), NEW_STRING_16("b")));
+    assert_false(isBuffStrEquals(NEW_STRING_16("bB"), NEW_STRING_16("bb")));
+    assert_false(isBuffStrEquals(NEW_STRING_16("#@"), NEW_STRING_16("@#")));
+
+    assert_false(isBuffStrEqualsCstr(NEW_STRING_16("a"), NULL));
+    assert_false(isBuffStrEqualsCstr(NEW_STRING_16(NULL), "b"));
+    assert_false(isBuffStrEqualsCstr(NEW_STRING_16("bB"), "b"));
+    assert_false(isBuffStrEqualsCstr(NEW_STRING_16("#@"), "@#"));
+    assert_true(isBuffStrEqualsCstr(NEW_STRING_16("bb"), "bb"));
+    assert_true(isBuffStrEqualsCstr(NEW_STRING_16("aaabcf"), "aaabcf"));
+    assert_true(isBuffStrEqualsCstr(NEW_STRING_16("AAABCF"), "AAABCF"));
     return MUNIT_OK;
 }
 
 static MunitResult testIsBuffStringEqualsIgnoreCase(const MunitParameter params[], void *testData) {
-    assert_true(isBuffStringEqualsIgnoreCase(NEW_STRING_16(NULL), NEW_STRING_16(NULL)));
-    assert_true(isBuffStringEqualsIgnoreCase(NEW_STRING_16("b"), NEW_STRING_16("b")));
-    assert_true(isBuffStringEqualsIgnoreCase(NEW_STRING_16("123"), NEW_STRING_16("123")));
-    assert_true(isBuffStringEqualsIgnoreCase(NEW_STRING_16(")"), NEW_STRING_16(")")));
+    assert_true(isBuffStrEqualsIgnoreCase(NEW_STRING_16(NULL), NEW_STRING_16(NULL)));
+    assert_true(isBuffStrEqualsIgnoreCase(NEW_STRING_16("b"), NEW_STRING_16("b")));
+    assert_true(isBuffStrEqualsIgnoreCase(NEW_STRING_16("123"), NEW_STRING_16("123")));
+    assert_true(isBuffStrEqualsIgnoreCase(NEW_STRING_16(")"), NEW_STRING_16(")")));
 
-    assert_false(isBuffStringEqualsIgnoreCase(NEW_STRING_16("a"), NEW_STRING_16(NULL)));
-    assert_false(isBuffStringEqualsIgnoreCase(NEW_STRING_16(NULL), NEW_STRING_16("b")));
-    assert_false(isBuffStringEqualsIgnoreCase(NEW_STRING_16("bB"), NEW_STRING_16("b")));
-    assert_false(isBuffStringEqualsIgnoreCase(NEW_STRING_16("#@"), NEW_STRING_16("@#")));
-    assert_true(isBuffStringEqualsIgnoreCase(NEW_STRING_16("bB"), NEW_STRING_16("bb")));
-    assert_true(isBuffStringEqualsIgnoreCase(NEW_STRING_16("aAaBcF"), NEW_STRING_16("aaabcf")));
-    assert_true(isBuffStringEqualsIgnoreCase(NEW_STRING_16("aAaBcF"), NEW_STRING_16("AAABCF")));
+    assert_false(isBuffStrEqualsIgnoreCase(NEW_STRING_16("a"), NEW_STRING_16(NULL)));
+    assert_false(isBuffStrEqualsIgnoreCase(NEW_STRING_16(NULL), NEW_STRING_16("b")));
+    assert_false(isBuffStrEqualsIgnoreCase(NEW_STRING_16("bB"), NEW_STRING_16("b")));
+    assert_false(isBuffStrEqualsIgnoreCase(NEW_STRING_16("#@"), NEW_STRING_16("@#")));
+    assert_true(isBuffStrEqualsIgnoreCase(NEW_STRING_16("bB"), NEW_STRING_16("bb")));
+    assert_true(isBuffStrEqualsIgnoreCase(NEW_STRING_16("aAaBcF"), NEW_STRING_16("aaabcf")));
+    assert_true(isBuffStrEqualsIgnoreCase(NEW_STRING_16("aAaBcF"), NEW_STRING_16("AAABCF")));
+
     return MUNIT_OK;
 }
 

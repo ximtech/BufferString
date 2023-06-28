@@ -461,36 +461,36 @@ For `char *` use `cStrToInt64()` instead
 
 ## Check functions
 
-Function `isBuffStringBlank()` checks if a `char` sequence is empty (""), null or whitespace only.
+Function `isBuffStrBlank()` checks if a `char` sequence is empty (""), null or whitespace only.
 
 ```c
-isBuffStringBlank(NULL);                        // true
-isBuffStringBlank(NEW_STRING_16(""));           // true
-isBuffStringBlank(NEW_STRING_16("  "));         // true
-isBuffStringBlank(NEW_STRING_16("bob"));        // false
-isBuffStringBlank(NEW_STRING_16("  bob  "));    // false
+isBuffStrBlank(NULL);                        // true
+isBuffStrBlank(NEW_STRING_16(""));           // true
+isBuffStrBlank(NEW_STRING_16("  "));         // true
+isBuffStrBlank(NEW_STRING_16("bob"));        // false
+isBuffStrBlank(NEW_STRING_16("  bob  "));    // false
 ```
 
-Function `isBuffStringEquals()` compares two `char` sequences, returning true if they represent equal sequences of
+Function `isBuffStrEquals()` compares two `char` sequences, returning true if they represent equal sequences of
 characters.
 
 ```c
-isBuffStringEquals(NULL, NULL); // true
-isBuffStringEquals(NULL, NEW_STRING_16("abc")); // false
-isBuffStringEquals(NEW_STRING_16("abc"), NULL); // false
-isBuffStringEquals(NEW_STRING_16("abc"), NEW_STRING_16("abc")); // true
-isBuffStringEquals(NEW_STRING_16("abc"), NEW_STRING_16("ABC")); // false
+isBuffStrEquals(NULL, NULL); // true
+isBuffStrEquals(NULL, NEW_STRING_16("abc")); // false
+isBuffStrEquals(NEW_STRING_16("abc"), NULL); // false
+isBuffStrEquals(NEW_STRING_16("abc"), NEW_STRING_16("abc")); // true
+isBuffStrEquals(NEW_STRING_16("abc"), NEW_STRING_16("ABC")); // false
 ```
 
 Function `` compares two `char` sequences, returning true if they represent equal sequences of characters, ignoring
 case.
 
 ```c
-isBuffStringEqualsIgnoreCase(NULL, NULL); // true
-isBuffStringEqualsIgnoreCase(NULL, NEW_STRING_16("abc")); // false
-isBuffStringEqualsIgnoreCase(NEW_STRING_16("abc"), NULL); // false
-isBuffStringEqualsIgnoreCase(NEW_STRING_16("abc"), NEW_STRING_16("abc")); // true
-isBuffStringEqualsIgnoreCase(NEW_STRING_16("abc"), NEW_STRING_16("ABC")); // true
+isBuffStrEqualsIgnoreCase(NULL, NULL); // true
+isBuffStrEqualsIgnoreCase(NULL, NEW_STRING_16("abc")); // false
+isBuffStrEqualsIgnoreCase(NEW_STRING_16("abc"), NULL); // false
+isBuffStrEqualsIgnoreCase(NEW_STRING_16("abc"), NEW_STRING_16("abc")); // true
+isBuffStrEqualsIgnoreCase(NEW_STRING_16("abc"), NEW_STRING_16("ABC")); // true
 ```
 
 ## Index of char or string
