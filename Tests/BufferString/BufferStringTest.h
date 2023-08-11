@@ -2197,31 +2197,68 @@ static MunitResult testLastIndexOfString(const MunitParameter params[], void *te
 
 static MunitResult testIsStringStartsWith(const MunitParameter params[], void *testData) {
     BufferString *str = NEW_STRING_64("abc def bca");
-    assert_true(isStringStartsWith(str, "abc", 0));
-    assert_true(isStringStartsWith(str, "ab", 0));
-    assert_true(isStringStartsWith(str, "a", 0));
-    assert_true(isStringStartsWith(str, " def", 3));
-    assert_true(isStringStartsWith(str, " bc", 7));
+    assert_true(isStrStartsWith(str, "abc", 0));
+    assert_true(isStrStartsWith(str, "ab", 0));
+    assert_true(isStrStartsWith(str, "a", 0));
+    assert_true(isStrStartsWith(str, " def", 3));
+    assert_true(isStrStartsWith(str, " bc", 7));
 
-    assert_false(isStringStartsWith(str, "b", 0));
-    assert_false(isStringStartsWith(str, "cba", 0));
-    assert_false(isStringStartsWith(str, " f", 3));
-    assert_false(isStringStartsWith(str, "A", 10)); // check case
+    assert_false(isStrStartsWith(str, "b", 0));
+    assert_false(isStrStartsWith(str, "cba", 0));
+    assert_false(isStrStartsWith(str, " f", 3));
+    assert_false(isStrStartsWith(str, "A", 10)); // check case
     return MUNIT_OK;
 }
 
 static MunitResult testIsStringStartsWithIgnoreCase(const MunitParameter params[], void *testData) {
     BufferString *str = NEW_STRING_64("aBc DEf bCa");
-    assert_true(isStringStartsWithIgnoreCase(str, "abc", 0));
-    assert_true(isStringStartsWithIgnoreCase(str, "ab", 0));
-    assert_true(isStringStartsWithIgnoreCase(str, "a", 0));
-    assert_true(isStringStartsWithIgnoreCase(str, " def", 3));
-    assert_true(isStringStartsWithIgnoreCase(str, " bc", 7));
-    assert_true(isStringStartsWithIgnoreCase(str, "A", 10));
+    assert_true(isStrStartsWithIgnoreCase(str, "abc", 0));
+    assert_true(isStrStartsWithIgnoreCase(str, "ab", 0));
+    assert_true(isStrStartsWithIgnoreCase(str, "a", 0));
+    assert_true(isStrStartsWithIgnoreCase(str, " def", 3));
+    assert_true(isStrStartsWithIgnoreCase(str, " bc", 7));
+    assert_true(isStrStartsWithIgnoreCase(str, "A", 10));
 
-    assert_false(isStringStartsWithIgnoreCase(str, "b", 0));
-    assert_false(isStringStartsWithIgnoreCase(str, "cba", 0));
-    assert_false(isStringStartsWithIgnoreCase(str, " f", 3));
+    assert_false(isStrStartsWithIgnoreCase(str, "b", 0));
+    assert_false(isStrStartsWithIgnoreCase(str, "cba", 0));
+    assert_false(isStrStartsWithIgnoreCase(str, " f", 3));
+    return MUNIT_OK;
+}
+
+static MunitResult testIsStringEndsWith(const MunitParameter params[], void *testData) {
+    BufferString *str = NEW_STRING_64("abcdef");
+    assert_true(isStrEndsWith(str, "def"));
+    assert_true(isStrEndsWith(str, "ef"));
+    assert_true(isStrEndsWith(str, "f"));
+    assert_true(isStrEndsWith(str, "abcdef"));
+
+    assert_false(isStrEndsWith(str, "b"));
+    assert_false(isStrEndsWith(str, "cba"));
+    assert_false(isStrEndsWith(str, " f"));
+    assert_false(isStrEndsWith(str, "aabcdef"));
+    assert_false(isStrEndsWith(str, "F")); // check case
+    assert_false(isStrEndsWith(str, NULL));
+    assert_false(isStrEndsWith(NULL, "def"));
+    return MUNIT_OK;
+}
+
+static MunitResult testIsStringEndsWithIgnoreCase(const MunitParameter params[], void *testData) {
+    BufferString *str = NEW_STRING_64("aBcDEfbCa");
+    assert_true(isStrEndsWithIgnoreCase(str, "bca"));
+    assert_true(isStrEndsWithIgnoreCase(str, "bCa"));
+    assert_true(isStrEndsWithIgnoreCase(str, "ca"));
+    assert_true(isStrEndsWithIgnoreCase(str, "a"));
+    assert_true(isStrEndsWithIgnoreCase(str, "A"));
+    assert_true(isStrEndsWithIgnoreCase(str, "BCA"));
+    assert_true(isStrEndsWithIgnoreCase(str, "ABCDEFBCA"));
+    assert_true(isStrEndsWithIgnoreCase(str, "abcdefbca"));
+
+    assert_false(isStrEndsWithIgnoreCase(str, "b"));
+    assert_false(isStrEndsWithIgnoreCase(str, "cba"));
+    assert_false(isStrEndsWithIgnoreCase(str, "fbc"));
+    assert_false(isStrEndsWithIgnoreCase(str, " f"));
+    assert_false(isStrEndsWithIgnoreCase(str, NULL));
+    assert_false(isStrEndsWithIgnoreCase(NULL, "bCa"));
     return MUNIT_OK;
 }
 
@@ -2448,8 +2485,10 @@ static MunitTest bufferStringTests[] = {
         {.name =  "Test indexOfChar() - should return index of char or -1 when not found", .test = testIndexOfChar},
         {.name =  "Test indexOfString() - should return index of string or -1 when not found", .test = testIndexOfString},
         {.name =  "Test lastIndexOfString() - should return last index of string or -1 when not found", .test = testLastIndexOfString},
-        {.name =  "Test isStringStartsWith() - should correctly check that string starts with substring", .test = testIsStringStartsWith},
-        {.name =  "Test isStringStartsWithIgnoreCase() - should correctly check that string starts with substring ignoring case", .test = testIsStringStartsWithIgnoreCase},
+        {.name =  "Test isStrStartsWith() - should correctly check that string starts with substring", .test = testIsStringStartsWith},
+        {.name =  "Test isStrStartsWithIgnoreCase() - should correctly check that string starts with substring ignoring case", .test = testIsStringStartsWithIgnoreCase},
+        {.name =  "Test isStrEndsWith() - should correctly check that string ends with substring", .test = testIsStringEndsWith},
+        {.name =  "Test isStrEndsWithIgnoreCase() - should correctly check that string ends with substring ignoring case", .test = testIsStringEndsWithIgnoreCase},
 
         {.name =  "Test charAt() - should correctly return index of char in string", .test = testCharAt},
         {.name =  "Test containsStr() - should check that string contains other string", .test = testContainsStr},

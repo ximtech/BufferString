@@ -768,7 +768,7 @@ int32_t lastIndexOfCStr(char *str, const char *stringToFind) {
     return NO_RESULT;
 }
 
-bool isStringStartsWith(BufferString *str, const char *prefix, uint32_t toOffset) {
+bool isStrStartsWith(BufferString *str, const char *prefix, uint32_t toOffset) {
     if (str == NULL || prefix == NULL) return false;
     uint32_t prefixLength = strlen(prefix);
     if (toOffset > (str->length - prefixLength)) return false;
@@ -782,7 +782,7 @@ bool isStringStartsWith(BufferString *str, const char *prefix, uint32_t toOffset
     return true;
 }
 
-bool isStringStartsWithIgnoreCase(BufferString *str, const char *prefix, uint32_t toOffset) {
+bool isStrStartsWithIgnoreCase(BufferString *str, const char *prefix, uint32_t toOffset) {
     if (str == NULL || prefix == NULL) return false;
     uint32_t prefixLength = strlen(prefix);
     if (toOffset > (str->length - prefixLength)) return false;
@@ -790,6 +790,40 @@ bool isStringStartsWithIgnoreCase(BufferString *str, const char *prefix, uint32_
     const char *valuePointer = str->value + toOffset;
     for (uint32_t i = 0; i < prefixLength; i++) {
         if (tolower(valuePointer[i]) != tolower(prefix[i])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool isStrEndsWith(BufferString *str, const char *suffix) {
+    if (str == NULL || suffix == NULL) return false;
+    uint32_t suffixLength = strlen(suffix);
+
+    if (suffixLength > str->length) {
+        return false;
+    }
+
+    uint32_t length = str->length;
+    for (uint32_t i = suffixLength; i > 0; i--, length--) {
+        if (str->value[length - 1] != suffix[i - 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool isStrEndsWithIgnoreCase(BufferString *str, const char *suffix) {
+    if (str == NULL || suffix == NULL) return false;
+    uint32_t suffixLength = strlen(suffix);
+
+    if (suffixLength > str->length) {
+        return false;
+    }
+
+    uint32_t length = str->length;
+    for (uint32_t i = suffixLength; i > 0; i--, length--) {
+        if (tolower(str->value[length - 1]) != tolower(suffix[i - 1])) {
             return false;
         }
     }

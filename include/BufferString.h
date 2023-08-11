@@ -156,8 +156,12 @@ int32_t indexOfCStr(char *str, const char *stringToFind, uint32_t fromIndex);
 int32_t lastIndexOfCStr(char *str, const char *stringToFind);
 
 // starts with
-bool isStringStartsWith(BufferString *str, const char *prefix, uint32_t toOffset);
-bool isStringStartsWithIgnoreCase(BufferString *str, const char *prefix, uint32_t toOffset);
+bool isStrStartsWith(BufferString *str, const char *prefix, uint32_t toOffset);
+bool isStrStartsWithIgnoreCase(BufferString *str, const char *prefix, uint32_t toOffset);
+
+// ends with
+bool isStrEndsWith(BufferString *str, const char *suffix);
+bool isStrEndsWithIgnoreCase(BufferString *str, const char *suffix);
 
 // additional helper functions
 static inline char charAt(BufferString *str, uint32_t index) {

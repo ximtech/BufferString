@@ -536,28 +536,52 @@ lastIndexOfString(NEW_STRING_16("aabaabaa"), "");  // 8
 
 ## BufferString starts with
 
-Function `isStringStartsWith()` tests if the substring of `BufferString` beginning at the specified index starts with
+Function `isStrStartsWith()` tests if the substring of `BufferString` beginning at the specified index starts with
 the specified prefix string
 
 ```c
-isStringStartsWith(NULL, NULL, 0);  // false
-isStringStartsWith(NULL, "abc", 0);  // false
-isStringStartsWith(NEW_STRING_16("aabaabaa"), NULL, 0); // false
-isStringStartsWith(NEW_STRING_16("aabaabaa"), "aa", 0);  // true
-isStringStartsWith(NEW_STRING_16("ABCDEF"), "a", 0);  // false
-isStringStartsWith(NEW_STRING_16("aabaabaa"), "aa", 1); // false
+isStrStartsWith(NULL, NULL, 0);  // false
+isStrStartsWith(NULL, "abc", 0);  // false
+isStrStartsWith(NEW_STRING_16("aabaabaa"), NULL, 0); // false
+isStrStartsWith(NEW_STRING_16("aabaabaa"), "aa", 0);  // true
+isStrStartsWith(NEW_STRING_16("ABCDEF"), "a", 0);  // false
+isStrStartsWith(NEW_STRING_16("aabaabaa"), "aa", 1); // false
 ```
 
-Function `isStringStartsWithIgnoreCase()` same functionality as `isStringStartsWith()`, but case-insensitive
+Function `isStrStartsWithIgnoreCase()` same functionality as `isStrStartsWith()`, but case-insensitive
 
 ```c
-isStringStartsWithIgnoreCase(NULL, NULL, 0);  // false
-isStringStartsWithIgnoreCase(NULL, "abc", 0);  // false
-isStringStartsWithIgnoreCase(NEW_STRING_16("aabaabaa"), NULL, 0); // false
-isStringStartsWithIgnoreCase(NEW_STRING_16("aabaabaa"), "aa", 0);  // true
-isStringStartsWithIgnoreCase(NEW_STRING_16("ABCDEF"), "a", 0);  // true
-isStringStartsWithIgnoreCase(NEW_STRING_16("ABCDEF"), "def", 3);  // true
-isStringStartsWithIgnoreCase(NEW_STRING_16("aabaabaa"), "aa", 1); // false
+isStrStartsWithIgnoreCase(NULL, NULL, 0);  // false
+isStrStartsWithIgnoreCase(NULL, "abc", 0);  // false
+isStrStartsWithIgnoreCase(NEW_STRING_16("aabaabaa"), NULL, 0); // false
+isStrStartsWithIgnoreCase(NEW_STRING_16("aabaabaa"), "aa", 0);  // true
+isStrStartsWithIgnoreCase(NEW_STRING_16("ABCDEF"), "a", 0);  // true
+isStrStartsWithIgnoreCase(NEW_STRING_16("ABCDEF"), "def", 3);  // true
+isStrStartsWithIgnoreCase(NEW_STRING_16("aabaabaa"), "aa", 1); // false
+```
+
+## BufferString ends with
+
+Function `isStrEndsWith()` tests if the substring of `BufferString` ends with a specified suffix
+
+```c
+isStrEndsWith(NULL, NULL);  // false
+isStrEndsWith(NULL, "abc");  // false
+isStrEndsWith(NEW_STRING_16("abcdef"), NULL); // false
+isStrEndsWith(NEW_STRING_16("abcdef"), "def");  // true
+isStrEndsWith(NEW_STRING_16("ABCDEF"), "def");  // false
+isStrEndsWith(NEW_STRING_16("ABCDEF"), "cde"); // false
+```
+
+Function `isStrEndsWithIgnoreCase()` same functionality as `isStrEndsWith()`, but case-insensitive
+
+```c
+isStrEndsWithIgnoreCase(NULL, NULL);  // false
+isStrEndsWithIgnoreCase(NULL, "abc");  // false
+isStrEndsWithIgnoreCase(NEW_STRING_16("aabaabaa"), NULL); // false
+isStrEndsWithIgnoreCase(NEW_STRING_16("abcdef"), "def");  // true
+isStrEndsWithIgnoreCase(NEW_STRING_16("ABCDEF"), "def");  // true
+isStrEndsWithIgnoreCase(NEW_STRING_16("abcdef"), "cde"); // false
 ```
 
 ## Additional helper functions
