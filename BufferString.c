@@ -676,7 +676,7 @@ StringToI64Status cStrToInt64(const char *str, int64_t *out, int base) {
 }
 
 bool isBuffStrBlank(BufferString *str) {
-    return isCstrBlank(str->value);
+    return str != NULL ? isCstrBlank(str->value) : true;
 }
 
 bool isCstrBlank(const char *str) {
