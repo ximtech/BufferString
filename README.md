@@ -471,6 +471,8 @@ isBuffStrBlank(NEW_STRING_16("bob"));        // false
 isBuffStrBlank(NEW_STRING_16("  bob  "));    // false
 ```
 
+For `char *` use `isCstrBlank()` instead
+
 Function `isBuffStrEquals()` compares two `char` sequences, returning true if they represent equal sequences of
 characters.
 

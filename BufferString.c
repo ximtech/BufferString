@@ -676,11 +676,15 @@ StringToI64Status cStrToInt64(const char *str, int64_t *out, int base) {
 }
 
 bool isBuffStrBlank(BufferString *str) {
-    while (isBuffStringNotEmpty(str)) {
-        if (!isspace((int) *str->value)) {
+    return isCstrBlank(str->value);
+}
+
+bool isCstrBlank(const char *str) {
+    while (isCstrNotEmpty(str)) {
+        if (!isspace((int) *str)) {
             return false;
         }
-        str->value++;
+        str++;
     }
     return true;
 }

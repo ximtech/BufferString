@@ -142,6 +142,7 @@ StringToI64Status cStrToInt64(const char *str, int64_t *out, int base);
 
 // check
 bool isBuffStrBlank(BufferString *str);
+bool isCstrBlank(const char *str);
 bool isBuffStrEquals(BufferString *one, BufferString *two);
 bool isBuffStrEqualsCstr(BufferString *one, const char *two);
 bool isBuffStrEqualsIgnoreCase(BufferString *one, BufferString *two);
@@ -172,8 +173,16 @@ static inline bool containsStr(BufferString *str, const char *searchString) {
     return (str != NULL && searchString != NULL && strstr(str->value, searchString) != NULL);
 }
 
+static inline bool isCstrEmpty(const char *str) {
+    return (str == NULL || str[0] == '\0');
+}
+
+static inline bool isCstrNotEmpty(const char *str) {
+    return !isCstrEmpty(str);
+}
+
 static inline bool isBuffStringEmpty(BufferString *str) {
-    return (str == NULL || str->value[0] == '\0');
+    return str == NULL || isCstrEmpty(str->value);
 }
 
 static inline bool isBuffStringNotEmpty(BufferString *str) {
