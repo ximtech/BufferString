@@ -78,9 +78,7 @@ typedef enum FormatFlagField {
     ADAPTIVE_EXPONENT_FLAG,  // flag for: '%g' that represents the decimal format of the answer, depending upon whose length is smaller, comparing between %e and %f.
 } FormatFlagField;
 
-static void shallowStringCopy(BufferString *source, BufferString *destination);
 static uint32_t isDelimiterChar(char valueChar, const char *delimiters, uint32_t length);
-
 static uint8_t parseFormatFlags(const char *format, uint8_t *flags);
 static uint8_t parseFormatFieldWith(const char *format, va_list *vaList, int32_t *widthField, uint8_t *flags);
 static uint8_t parseFormatPrecision(const char *format, va_list *vaList, int32_t *precision);
@@ -421,6 +419,7 @@ BufferString *substringCStrFrom(char *source, BufferString *destination, uint32_
 }
 
 BufferString *substringCStrFromTo(char *source, BufferString *destination, uint32_t beginIndex, uint32_t endIndex) {
+    if (source == NULL) return NULL;
     bool isStringNotInBounds = (beginIndex > endIndex || endIndex > strlen(source));
     if (isStringNotInBounds) return NULL;
     uint32_t subLen = (endIndex - beginIndex);
@@ -501,7 +500,7 @@ bool hasNextSplitToken(StringIterator *iterator, BufferString *token) {
     char *endPointer = strstr(startPointer, iterator->delimiter);
     if (endPointer == NULL) {   // check that delimiter exist
         if (iterator->nextToken != NULL &&
-            iterator->nextToken != iterator->str->value) {// copy last part only when source string have at least one existing delimiter
+            iterator->nextToken != iterator->str->value) {// copy last part only when source string has at least one existing delimiter
             copyStringByLength(token, startPointer, strlen(iterator->nextToken));
             iterator->nextToken = NULL;
             return true;
@@ -519,8 +518,6 @@ bool hasNextSplitToken(StringIterator *iterator, BufferString *token) {
 BufferString *joinChars(BufferString *str, const char *delimiter, uint32_t argCount, ...) {
     va_list valist;
     va_start(valist, argCount);
-    BufferString backupString = {0};
-    shallowStringCopy(str, &backupString);
     uint32_t delimiterLength = strlen(delimiter);
 
     bool isFailedToJoin = false;
@@ -531,28 +528,19 @@ BufferString *joinChars(BufferString *str, const char *delimiter, uint32_t argCo
             break;
         }
         if (i != argCount - 1) {
-            if (concatCharsByLength(str, delimiter, delimiterLength) == NULL) {
-                isFailedToJoin = true;
-                break;
-            }
+            concatCharsByLength(str, delimiter, delimiterLength);
         }
     }
 
     if (isFailedToJoin) {
-        shallowStringCopy(&backupString, str);
         TERMINATE_STRING(str);  // restore previous string ending by length
-        va_end(valist);
-        return NULL;
     }
     va_end(valist);
     return str;
 }
 
 BufferString *joinStringArray(BufferString *str, const char *delimiter, uint32_t argCount, char **tokens) {
-    BufferString backupString = {0};
-    shallowStringCopy(str, &backupString);
     uint32_t delimiterLength = strlen(delimiter);
-
     bool isFailedToJoin = false;
     for (uint32_t i = 0; i < argCount; i++) {
         char *argValue = tokens[i];
@@ -561,17 +549,12 @@ BufferString *joinStringArray(BufferString *str, const char *delimiter, uint32_t
             break;
         }
         if (i != argCount - 1) {
-            if (concatCharsByLength(str, delimiter, delimiterLength) == NULL) {
-                isFailedToJoin = true;
-                break;
-            }
+            concatCharsByLength(str, delimiter, delimiterLength);
         }
     }
 
     if (isFailedToJoin) {
-        shallowStringCopy(&backupString, str);
         TERMINATE_STRING(str);  // restore previous string ending by length
-        return NULL;
     }
     return str;
 }
@@ -579,8 +562,6 @@ BufferString *joinStringArray(BufferString *str, const char *delimiter, uint32_t
 BufferString *joinStrings(BufferString *str, const char *delimiter, uint32_t argCount, ...) {
     va_list valist;
     va_start(valist, argCount);
-    BufferString backupString = {0};
-    shallowStringCopy(str, &backupString);
     uint32_t delimiterLength = strlen(delimiter);
 
     bool isFailedToJoin = false;
@@ -591,18 +572,12 @@ BufferString *joinStrings(BufferString *str, const char *delimiter, uint32_t arg
             break;
         }
         if (i != argCount - 1) {
-            if (concatCharsByLength(str, delimiter, delimiterLength) == NULL) {
-                isFailedToJoin = true;
-                break;
-            }
+            concatCharsByLength(str, delimiter, delimiterLength);
         }
     }
 
     if (isFailedToJoin) {
-        shallowStringCopy(&backupString, str);
-        TERMINATE_STRING(str);  // restore previous string ending by length
-        va_end(valist);
-        return NULL;
+        TERMINATE_STRING(str);
     }
     va_end(valist);
     return str;
@@ -832,12 +807,6 @@ bool isStrEndsWithIgnoreCase(BufferString *str, const char *suffix) {
         }
     }
     return true;
-}
-
-static void shallowStringCopy(BufferString *source, BufferString *destination) {
-    destination->capacity = source->capacity;
-    destination->length = source->length;
-    destination->value = source->value;
 }
 
 static uint32_t isDelimiterChar(char valueChar, const char *delimiters, uint32_t length) {

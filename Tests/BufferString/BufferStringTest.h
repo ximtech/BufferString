@@ -1885,13 +1885,11 @@ static MunitResult testJoinChars(const MunitParameter params[], void *testData) 
 
     BufferString *smallStr = NEW_STRING_16("aaa");
     BufferString *result = joinChars(smallStr, "-", 8, "Some", "content", "that", "is", "large", "than", "provided", "capacity");
-    assert_null(result);
-    validateString(smallStr, "aaa", 3, 16);
+    validateString(result, "aaaSome-content", 15, 16);
 
     BufferString *smallStr_2 = NEW_STRING_16("aaa");
     BufferString *result_2 = joinChars(smallStr_2, "-", 4, "aaaa", "bbbb", "bbb", "c");
-    assert_null(result_2); // concatenate delimiter overflows buffer
-    validateString(smallStr_2, "aaa", 3, 16);
+    validateString(result_2, "aaaaaaa-bbbb-", 13, 16); // concatenate delimiter overflows buffer
 
     return MUNIT_OK;
 }
@@ -1911,14 +1909,12 @@ static MunitResult testJoinArrayString(const MunitParameter params[], void *test
     char *tokens_3[8] = {"Some", "content", "that", "is", "large", "than", "provided", "capacity"};
 
     BufferString *result = joinStringArray(smallStr, "-", 8, tokens_3);
-    assert_null(result);
-    validateString(smallStr, "aaa", 3, 16);
+    validateString(result, "aaaSome-content", 15, 16);
 
     BufferString *smallStr_2 = NEW_STRING_16("aaa");
     char *tokens_4[4] = {"aaaa", "bbbb", "bbb", "c"};
     BufferString *result_2 = joinStringArray(smallStr_2, "-", 4, tokens_4);
-    assert_null(result_2); // concatenate delimiter overflows buffer
-    validateString(smallStr_2, "aaa", 3, 16);
+    validateString(result_2, "aaaaaaa-bbbb-", 13, 16); // concatenate delimiter overflows buffer
     return MUNIT_OK;
 }
 
@@ -1937,13 +1933,11 @@ static MunitResult testJoinStrings(const MunitParameter params[], void *testData
 
     BufferString *smallStr = NEW_STRING_16("aaa");
     BufferString *result = joinStrings(smallStr, "|", 3, NEW_STRING_16("test_1234"), NEW_STRING_16("test_25678"), NEW_STRING_16("test_3435345"));
-    assert_null(result);
-    validateString(smallStr, "aaa", 3, 16);
+    validateString(smallStr, "aaatest_1234|", 13, 16);
 
     BufferString *smallStr_2 = NEW_STRING_16("sdf");
     BufferString *result_2 = joinStrings(smallStr_2, "-", 4, NEW_STRING_16("aaaa"), NEW_STRING_16("bbbb"), NEW_STRING_16("bb"), NEW_STRING_16("c"));
-    assert_null(result_2); // concatenate delimiter overflows buffer
-    validateString(smallStr_2, "sdf", 3, 16);
+    validateString(smallStr_2, "sdfaaaa-bbbb-bb", 15, 16); // concatenate delimiter overflows buffer
     return MUNIT_OK;
 }
 
