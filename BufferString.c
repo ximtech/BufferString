@@ -286,14 +286,14 @@ BufferString *clearString(BufferString *str) {
 
 BufferString *toLowerCase(BufferString *str) {
     for (uint32_t i = 0; i < str->length; i++) {
-        str->value[i] = (char) tolower(str->value[i]);
+        str->value[i] = (char) tolower((int) str->value[i]);
     }
     return str;
 }
 
 BufferString *toUpperCase(BufferString *str) {
     for (uint32_t i = 0; i < str->length; i++) {
-        str->value[i] = (char) toupper(str->value[i]);
+        str->value[i] = (char) toupper((int) str->value[i]);
     }
     return str;
 }
@@ -301,7 +301,7 @@ BufferString *toUpperCase(BufferString *str) {
 BufferString *swapCase(BufferString *str) {
     for (uint32_t i = 0; i < str->length; i++) {
         char valueChar = str->value[i];
-        str->value[i] = (char) (islower(valueChar) ? toupper(valueChar) : tolower(valueChar));
+        str->value[i] = (char) (islower((int) valueChar) ? toupper((int) valueChar) : tolower((int) valueChar));
     }
     return str;
 }
@@ -378,7 +378,7 @@ BufferString *capitalize(BufferString *str, const char *delimiters, uint32_t len
         }
 
         if (capitalizeNext) {
-            str->value[i] = (char) toupper(str->value[i]);
+            str->value[i] = (char) toupper((int) str->value[i]);
             capitalizeNext = false;
         }
     }
@@ -768,7 +768,7 @@ bool isStrStartsWithIgnoreCase(BufferString *str, const char *prefix, uint32_t t
 
     const char *valuePointer = str->value + toOffset;
     for (uint32_t i = 0; i < prefixLength; i++) {
-        if (tolower(valuePointer[i]) != tolower(prefix[i])) {
+        if (tolower((int) valuePointer[i]) != tolower((int) prefix[i])) {
             return false;
         }
     }
@@ -802,7 +802,7 @@ bool isStrEndsWithIgnoreCase(BufferString *str, const char *suffix) {
 
     uint32_t length = str->length;
     for (uint32_t i = suffixLength; i > 0; i--, length--) {
-        if (tolower(str->value[length - 1]) != tolower(suffix[i - 1])) {
+        if (tolower((int) str->value[length - 1]) != tolower((int) suffix[i - 1])) {
             return false;
         }
     }
@@ -1264,7 +1264,7 @@ static int32_t numberToStringByBase(uint64_t number, char *numberBuffer, uint8_t
         uint64_t result = number % base;
         number = number / base;
         char digit = DIGITS[result];
-        numberBuffer[length] = (char) (isUpperCaseValue ? tolower(digit) : digit);
+        numberBuffer[length] = (char) (isUpperCaseValue ? tolower((int) digit) : digit);
         length++;
     } while (number > 0);
 
